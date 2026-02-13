@@ -1,48 +1,331 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Du Chao | Portfolio</title>
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#111b2e;
+      --text:#e8eefc;
+      --muted:#b7c4e3;
+      --line: rgba(255,255,255,.12);
+      --accent:#7aa7ff;
+      --accent2:#7bffd6;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --max: 980px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: radial-gradient(1200px 700px at 20% 10%, rgba(122,167,255,.25), transparent 50%),
+                  radial-gradient(900px 600px at 80% 20%, rgba(123,255,214,.14), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    a:hover{ color: var(--accent2); }
+
+    .wrap{
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 28px 0 60px;
+    }
+
+    /* Top bar */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      backdrop-filter: blur(12px);
+      background: rgba(11,18,32,.55);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar .inner{
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      padding: 12px 0;
+    }
+    .brand{
+      display:flex; gap:12px; align-items:center;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+    .dot{
+      width: 10px; height:10px; border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 6px rgba(122,167,255,.10);
+    }
+    nav{
+      display:flex; gap: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    nav a{
+      padding: 8px 12px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      color: var(--muted);
+    }
+    nav a:hover{
+      border-color: var(--line);
+      color: var(--text);
+      background: rgba(255,255,255,.06);
+    }
+
+    /* Hero */
+    .hero{
+      margin-top: 18px;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+    }
+    .hero h1{
+      margin: 0 0 6px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.1;
+    }
+    .subtitle{
+      margin: 0 0 16px;
+      color: var(--muted);
+      max-width: 70ch;
+    }
+    .chips{
+      display:flex; gap:10px; flex-wrap: wrap;
+    }
+    .chip{
+      font-size: 14px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255,255,255,.04);
+    }
+
+    /* Grid cards */
+    .grid{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 900px){
+      .grid{ grid-template-columns: 1.1fr .9fr; }
+    }
+
+    .card{
+      padding: 18px 18px 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      box-shadow: var(--shadow);
+    }
+    .card h2{
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: .2px;
+    }
+    .muted{ color: var(--muted); }
+
+    .list{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    /* Project cards inside */
+    .project{
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(17,27,46,.55);
+      margin-top: 10px;
+    }
+    .project-title{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+      font-weight: 650;
+    }
+    .tag{
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .footer{
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      display:flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btnrow{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+    }
+    .btn:hover{
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.20);
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Welcome to My Portfolio</h1>
+  <header class="topbar">
+    <div class="inner">
+      <div class="brand">
+        <span class="dot"></span>
+        <span>Du Chao · Portfolio</span>
+      </div>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#diary">Production diary</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-    <section>
-        <h2>About Me</h2>
-        <p>I am a Computer Science student at the University of York. I am currently studying in the International Year One programee. </p>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Hello, I’m Du Chaoke 👋</h1>
+      <p class="subtitle">
+        I am a Computer Science student at the University of York (International Year One).
+        This site is my GitHub Pages portfolio for projects, skills, and learning progress.
+      </p>
+      <div class="chips">
+        <span class="chip">Python</span>
+        <span class="chip">Java</span>
+        <span class="chip">HTML/CSS</span>
+        <span class="chip">Git & GitHub</span>
+      </div>
+
+      <div class="btnrow">
+        <a class="btn" href="#projects">View projects →</a>
+        <!-- Optional: link to maths page later -->
+        <!-- <a class="btn" href="maths.html">CS Maths & Tools →</a> -->
+      </div>
     </section>
 
-    <section>
-        <h2>Projects</h2>
-        <p>This section will include my programming projects.</p>
-    </section>
+    <section class="grid">
+      <section id="about" class="card">
+        <h2>About</h2>
+        <p class="muted">
+          I enjoy building small programs and learning how software tools work in practice.
+          I am currently improving my skills in programming, problem-solving, and web development.
+        </p>
+        <ul class="list">
+          <li>Studying: Computer Science (University of York)</li>
+          <li>Interests: programming, algorithms, and practical tools</li>
+          <li>Current goal: build a clean portfolio and add a maths tool page</li>
+        </ul>
+      </section>
 
-    <section>
+      <section id="skills" class="card">
         <h2>Skills</h2>
-        <p>Python, Java, HTML, GitHub</p>
+        <p class="muted">Core skills I am using in my coursework and projects:</p>
+        <ul class="list">
+          <li>Python (functions, data structures, file I/O)</li>
+          <li>Java (OOP basics)</li>
+          <li>HTML & CSS (structure and styling)</li>
+          <li>GitHub (repositories, commits, GitHub Pages)</li>
+        </ul>
+      </section>
     </section>
 
-    <section>
-        <h2>Contact</h2>
-        <p>Email: duchaokebts@gmail.com Phone number: 12345678901</p>
+    <section id="projects" class="card" style="margin-top:14px;">
+      <h2>Projects</h2>
+      <p class="muted">A few things I have worked on (I will keep adding more):</p>
+
+      <div class="project">
+        <div class="project-title">
+          <span>Portfolio website (GitHub Pages)</span>
+          <span class="tag">Web</span>
+        </div>
+        <p class="muted">Created and deployed a personal portfolio website using GitHub Pages, HTML and basic CSS.</p>
+      </div>
+
+      <div class="project">
+        <div class="project-title">
+          <span>Mini maths tool (planned)</span>
+          <span class="tag">CS Maths</span>
+        </div>
+        <p class="muted">Next: build a simple binary converter or password combination calculator in JavaScript.</p>
+      </div>
     </section>
 
-    <section id="production-diary">
-        <h2>Production Diary – Week 15</h2>
-        <p><strong>Date:</strong> 13 February 2026</p>
-        <p>
-        This week, I set up my GitHub Pages portfolio website and created the main structure, including the About, Projects, Skills and Contact sections. I also learned how to connect my repository to GitHub Pages and make the website publicly available online.
-        </p>
-        <p>
-        I am most proud of successfully publishing my website for the first time. At the beginning, I was confused about the difference between a user site and a project site, and I received a 404 error. After checking the repository name and adjusting the settings, I finally managed to make the correct URL work. This experience helped me understand how web hosting works in practice.
-        </p>
-        <p>
-        The most challenging part was understanding how repository names affect the website address. However, solving this problem increased my confidence in using GitHub.
-        </p>
-        <p>
-       Through this task, I improved my understanding of HTML structure, basic website layout, and how files are deployed to the internet. Next week, I plan to improve the visual design of my portfolio and add a small computer science maths tool, such as a binary converter, to demonstrate my programming skills.
-        </p>
+    <section id="diary" class="card" style="margin-top:14px;">
+      <h2>Production Diary – Week 15</h2>
+      <p class="muted"><strong>Date:</strong> 13 February 2026</p>
+
+      <p class="muted">
+        This week, I set up my GitHub Pages portfolio website and created the main structure,
+        including the About, Projects, Skills and Contact sections. I learned how to connect my
+        repository to GitHub Pages and publish the site online.
+      </p>
+
+      <p class="muted">
+        I am most proud of successfully publishing my website for the first time. The most
+        challenging part was understanding how repository names affect the final URL and how
+        GitHub Pages deployment works.
+      </p>
+
+      <p class="muted">
+        Next week, I plan to improve the design and add a small computer science maths tool (for example,
+        a binary converter) to demonstrate my programming skills more clearly.
+      </p>
     </section>
 
+    <section id="contact" class="card" style="margin-top:14px;">
+      <h2>Contact</h2>
+      <p class="muted">
+        Email: <a href="mailto:duchao@efv.com">duchao@efv.com</a>
+      </p>
+      <p class="muted">
+        (Tip: you can remove your phone number to protect privacy, and add LinkedIn/GitHub instead.)
+      </p>
+    </section>
+
+    <div class="footer">
+      <span>© 2026 Du Chao</span>
+      <span class="muted">Built with GitHub Pages</span>
+    </div>
+  </main>
 </body>
 </html>
-
